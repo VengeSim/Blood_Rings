@@ -18,7 +18,6 @@ public class CharacterStats : MonoBehaviour {
 	
 	public float walkSpeed;
 	public float jumpHeight;
-	public float jumpFloat;
 	
 	void Start () {
 	
