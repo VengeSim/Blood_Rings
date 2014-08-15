@@ -29,7 +29,7 @@ public class CharacterController2D: MonoBehaviour {
 	public bool walkRight;
 	public bool walkLeft;
 	public bool jump;
-
+	public bool stop;
 	
 	public bool flag_Bottom;
 	public bool flag_Top;
@@ -55,32 +55,35 @@ public class CharacterController2D: MonoBehaviour {
 	void Update () {
 		this.iMon.Update();
 		this.UpdateFlags();
+		this.animator.SetBool("NotOnGround", !this.flag_Bottom);
+		this.animator.SetFloat("VelocityY", this.rigidbody2D.velocity.y);
 		
 		
 		this.walkRight = false;
 		this.walkLeft = false;
 		this.jump = false;
+		this.stop = false;
 		
 		velocity = rigidbody2D.velocity;
 		
 		if(iMon.Right.State && this.flag_Bottom){
-			this.animator.Play("Walk");
+			this.animator.SetBool("Walk", true);
 			this.FaceRight();
 			this.walkRight = true;
 		}
 		if(iMon.Left.State && this.flag_Bottom){
-			this.animator.Play("Walk");
+			this.animator.SetBool("Walk", true);
 			this.FaceLeft();
 			this.walkLeft = true;
 		}
 		if(iMon.Up.State && this.flag_Bottom){
-			
 			this.jump = true;
 		}
 
-		if(!jump && !walkRight && !walkLeft){			
-			
+		if(this.flag_Bottom && !this.walkLeft && !this.walkRight && !this.jump){			
+			this.animator.SetBool("Walk", false);
 			this.animator.Play("Idle");
+			this.stop = true;
 			
 		}
 		
@@ -101,7 +104,10 @@ public class CharacterController2D: MonoBehaviour {
 			this.rigidbody2D.velocity = new Vector2(this.rigidbody2D.velocity.x, cStats.jumpHeight);
 			
 		}
-
+		if(this.stop){
+			this.rigidbody2D.velocity = new Vector2(0, this.rigidbody2D.velocity.y);
+			
+		}
 	}
 	
 	

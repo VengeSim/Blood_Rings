@@ -4,15 +4,4 @@
 */
 
 
-Characters have Main Stats the can get upgraded
-	Characters have fighting styles that can be swapped between mid fight
-		Styles are variations on the Characters Main stats
-		Eg. Main stats.
-			WalkSpeed = 10;
-			JumpHeight = 5;
-			JumpFloat = 4;
-			
-			Style 1.
-			WalkSpeed = 3;
-			JumpHeight = 2;
-			JumpFloat = 4;
+Make Static Rect values for each Sprite.

@@ -14,7 +14,14 @@ using BloodRings;
 
 namespace BloodRings{
 	
+	public static class Global{
+		
+		
+	}
+	
 	public static class Debug{
+		
+
 		
 		public static bool DEBUG_MODE = false;
 		
@@ -101,9 +108,20 @@ namespace BloodRings{
 		#endregion
 		
 	}
+
+	public class Sprite{
 	
-	public static class Global{
-	
-	
+		protected Sprite image;
+		protected Rect trigger_top;
+		protected Rect trigger_bottom;
+		protected Rect trigger_front;
+		protected Rect trigger_back;
+		protected Rect hitBox1;
+		protected Rect hitBox2;
+		protected Rect hitBox3;
+		protected Rect hurtBox1;
+		protected Rect hurtBox2;
+		protected Rect hurtBox3;
 	}
+	
 }
