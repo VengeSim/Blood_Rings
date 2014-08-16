@@ -26,7 +26,7 @@ namespace BloodRings{
 		protected Input b2;
 		protected Input b3;
 		protected Input b4;
-		protected Input combo;
+		protected Input turn;
 		protected Input block;
 		protected Input select;
 		protected Input start;
@@ -44,7 +44,7 @@ namespace BloodRings{
 		public Input Button2 {get {return b2;}}
 		public Input Button3 {get {return b3;}}
 		public Input Button4 {get {return b4;}}
-		public Input Combo {get {return combo;}}
+		public Input Turn {get {return turn;}}
 		public Input Block {get {return block;}}
 		public Input Select {get {return select;}}
 		public Input Start {get {return start;}}
@@ -64,7 +64,7 @@ namespace BloodRings{
 			this.b2 = new Input("1_2");
 			this.b3 = new Input("1_3");
 			this.b4 = new Input("1_4");
-			this.combo = new Input("1_Combo");
+			this.turn = new Input("1_Turn");
 			this.block = new Input("1_Block");
 			this.select = new Input("1_Select");
 			this.start = new Input("1_Start");
@@ -78,7 +78,7 @@ namespace BloodRings{
 							this.b2, 
 							this.b3, 
 							this.b4, 
-							this.combo, 
+							this.turn, 
 							this.block, 
 							this.select, 
 							this.start

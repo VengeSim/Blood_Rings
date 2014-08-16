@@ -5,7 +5,7 @@ public class CollisionFlag : MonoBehaviour {
 
 	public bool flag = false;
 	
-	public bool Flag {get {return flag;}}
+	public bool Bool {get {return flag;}}
 
 	void OnTriggerEnter2D(Collider2D other) {
 		this.flag = true;
@@ -27,3 +27,9 @@ public class CollisionFlag : MonoBehaviour {
 	}
 	
 }
+
+
+
+
+
+

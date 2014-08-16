@@ -18,17 +18,9 @@ public class TickController : MonoBehaviour {
 	
 	public int tick = 0;
 	
-	public delegate void EventHandler();
-	//public event EventHandler Ontick;
-	//public Fighter fighter1;
-	//public Fighter fighter2;
-	
-
-	
 	void Start (){		
-		//this.Ontick += new EventHandler(fighter1.TickUpdate);
 
-		StartCoroutine("TickTimer");
+		StartCoroutine(TickTimer());
 	}
 	
 	void Update (){
@@ -36,7 +28,7 @@ public class TickController : MonoBehaviour {
 	}
 	
 	void OnGUI(){
-
+		GUILayout.Label(this.tick.ToString());
 	}
 	
 	
@@ -44,10 +36,8 @@ public class TickController : MonoBehaviour {
 		while(true){
 			this.tick += 1;
 			Debug.Log("[Tick_" + this.tick + "]");
-			//Ontick.Invoke();
 			
-			//yield return new WaitForSeconds(0.5f);
-			yield return new WaitForSeconds(0.06f);
+			yield return 0;
 		}
 	}
 	
