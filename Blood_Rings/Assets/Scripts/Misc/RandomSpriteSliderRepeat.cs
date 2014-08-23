@@ -42,12 +42,22 @@ public class RandomSpriteSliderRepeat : MonoBehaviour {
 			this.sJoint.useMotor = true;
 			this.sJoint.motor = motorForward;
 			
+			foreach( Transform child in transform )
+			{
+				child.gameObject.SetActive(true);
+			}
+			
 			this.startUp = false;
 		}
 	
 		if(sJoint.limitState == JointLimitState2D.UpperLimit){
 			this.sJoint.motor = motorReverse;
 			this.sRend.sprite = null;
+			
+			foreach( Transform child in transform )
+			{
+				child.gameObject.SetActive(false);
+			}
 			this.startUp = true;
 		}
 	}
