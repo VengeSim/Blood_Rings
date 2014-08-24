@@ -24,18 +24,19 @@ public class Attack{
 	protected int hitStun;
 	protected int blockStun;
 	protected float pushBack;
+	protected State endState;
 	
 	public Attack(Sprite sprite, BoxData bData, int[] frames){
 		this.sprite = sprite;
 		this.bData = bData;
 		this.frames = frames;
 	}
-	public Attack(Sprite sprite, BoxData bData, int[] frames, int damage, int hitStun, int blockStun, float pushBack ): this(sprite, bData, frames){
-		this.damage = damage;
-		this.hitStun = hitStun;
-		this.blockStun = blockStun;
-		this.pushBack = pushBack;
-		
+	public Attack(Sprite sprite, BoxData bData, int[] frames, HitPacket hPacket, State endState): this(sprite, bData, frames){
+		this.damage = hPacket.Damage;
+		this.hitStun = hPacket.HitStun;
+		this.blockStun = hPacket.BlockStun;
+		this.pushBack = hPacket.PushBack;
+		this.endState = endState;
 	}
 	
 	public Sprite Sprite {get {return sprite;}}
@@ -48,7 +49,10 @@ public class Attack{
 	public int HitStun {get {return hitStun;}}
 	public int BlockStun {get {return blockStun;}}
 	public float PushBack {get {return pushBack;}}
+	public State EndState {get {return endState;}}
 	
-	
+	public HitPacket GetHitPacket(){
+		return new HitPacket(this.damage, this.hitStun, this.blockStun, this.pushBack);
+	}
 	
 }

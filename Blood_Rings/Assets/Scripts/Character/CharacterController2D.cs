@@ -18,6 +18,7 @@ public class CharacterController2D: MonoBehaviour {
 
 	public CharacterStats cStats;
 	public Animator animator;
+	public GameObject gameController;
 	public int controller = 1;
 	
 	public InputMon iMon;
@@ -28,9 +29,6 @@ public class CharacterController2D: MonoBehaviour {
 	
 	public Sprite[] sprites;
 
-	protected bool phys_WalkRight;
-	protected bool phys_WalkLeft;
-	protected bool phys_Jump;
 	protected bool phys_Stop;
 	protected bool facingRight;
 	
@@ -53,7 +51,13 @@ public class CharacterController2D: MonoBehaviour {
 	
 	protected TickController tickController;
 	
-	protected Attack cAttack;
+	protected HitPacket hPacket;
+	
+	
+	public int health;
+	public int stunTicks;
+	
+	
 	
 	public bool isGrounded;
 	public int inAirFrameCount;
@@ -62,6 +66,8 @@ public class CharacterController2D: MonoBehaviour {
 	public BlockState blockState;
 	public WalkState walkState;
 	public JumpState jumpState;
+	public HitState hitState;
+	public StunState stunState;
 	public AttackState attackState;
 	public AttackEXState attackEXState;
 	public AttackSPState attackSPState;
@@ -69,6 +75,28 @@ public class CharacterController2D: MonoBehaviour {
 	public BloodRings.Behaviour inputBehaviour;
 	
 	#region Properties
+	public HitPacket HitPacket{
+		get{
+			return this.hPacket;
+		}
+		set{
+			this.hPacket = value;
+		}
+	}
+	
+	public int Health{
+		get{
+			return this.health;
+		}
+		set{
+			this.health = value;
+		}
+	}
+	public int StunTicks{
+		get{
+			return this.stunTicks;
+		}
+	}
 	public bool Flag_Bottom{
 		get{
 			return this.flags_Bottom.Bool;
@@ -121,6 +149,22 @@ public class CharacterController2D: MonoBehaviour {
 			this.jumpState = value;
 		}
 	}
+	public HitState HitState{
+		get{
+			return this.hitState;
+		}
+		set{
+			this.hitState = value;
+		}
+	}
+	public StunState StunState{
+		get{
+			return this.stunState;
+		}
+		set{
+			this.stunState = value;
+		}
+	}
 	public AttackState AttackState{
 		get{
 			return this.attackState;
@@ -134,11 +178,16 @@ public class CharacterController2D: MonoBehaviour {
 			return this.animator;
 		}
 	}
+	public InputMon InputMon{
+		get{
+			return this.iMon;
+		}
+	}
 	#endregion
 	
 	void Awake () {
 		this.iMon = new InputMon(this.controller);
-		this.tickController = gameObject.GetComponentInParent<TickController>();
+		this.tickController = GameObject.Find("GameController").GetComponent<TickController>();
 		
 		this.flags_Top = this.transform.Find("Flags/Top").GetComponent<CollisionFlag>();
 		this.flags_Bottom = this.transform.Find("Flags/Bottom").GetComponent<CollisionFlag>();
@@ -164,12 +213,13 @@ public class CharacterController2D: MonoBehaviour {
 		this.startRenderer = this.transform.Find("StartupSprite").GetComponent<SpriteRenderer>();
 		
 		
-		this.cAttack = null;
 		this.facingRight = true;
 		this.FaceRight();
 		this.SetBoxData(Fighter1BoxData.NEUTRAL);
 		
 		this.inputBehaviour = BloodRings.SetBehaviours.Fighter1(this);
+		
+		this.health = cStats.health;
 		
 	}
 	
@@ -188,6 +238,8 @@ public class CharacterController2D: MonoBehaviour {
 			
 		}
 		
+		this.StunCheck();
+		
 		this.iMon.Update();
 		this.inputBehaviour.Tick();
 		
@@ -198,8 +250,9 @@ public class CharacterController2D: MonoBehaviour {
 		this.animator.SetInteger("WalkState",(int)this.walkState);
 		this.animator.SetInteger("JumpState",(int)this.jumpState);
 		this.animator.SetFloat("Velocity_Y", this.rigidbody2D.velocity.y);
+		this.animator.SetInteger("HitState",(int)this.hitState);
+		this.animator.SetInteger("StunState",(int)this.stunState);
 		
-
 	}
 	
 
@@ -302,42 +355,66 @@ public class CharacterController2D: MonoBehaviour {
 	}
 	
 	public void Attack1(){
-		this.StartAttack(this.cStats.attack5);
+		this.StartAttack(this.cStats.attack1);
 	}
 	public void Attack2(){
-		this.StartAttack(this.cStats.attack6);
+		this.StartAttack(this.cStats.attack2);
 	}
 	public void Attack3(){
-		this.StartAttack(this.cStats.attack7);
+		this.StartAttack(this.cStats.attack3);
 	}
 	public void Attack4(){
+		this.StartAttack(this.cStats.attack4);
+	}
+	public void CrouchAttack1(){
+		this.StartAttack(this.cStats.attack5);
+	}
+	public void CrouchAttack2(){
+		this.StartAttack(this.cStats.attack6);
+	}
+	public void CrouchAttack3(){
+		this.StartAttack(this.cStats.attack7);
+	}
+	public void CrouchAttack4(){
 		this.StartAttack(this.cStats.attack8);
 	}
-
 	
 	public void StartAttack(Attack attack){
 		int startTick = this.tickController.Tick;
 		
-		this.cAttack = attack;
-		this.animator.enabled = false;
-		
+		this.animator.enabled = false;		
 		this.startRenderer.sprite = attack.Sprite;
+		
+		this.state = attack.EndState;
 		StartCoroutine(AttackRoutine(startTick, attack));
 		
 	}
 	
-	public void EndAttack(){
+	public void EndAttack(Attack attack){
+		this.state = attack.EndState;
 		this.attackState = AttackState.Ready;
-		this.animator.enabled = true;
 		this.attackEXState = AttackEXState.None;
 		this.attackSPState = AttackSPState.None;
+		this.startRenderer.sprite = null;
 		
+		this.animator.enabled = true;
 		
 	}
 	
 	IEnumerator AttackRoutine(int startTick, Attack attack){
+	
+		int startCount = 0;
+		int activeCount = 0;
+		int recoveryCount = 0;
 		while(true){
-		
+			
+			if(this.HitState != HitState.False){
+				this.EndAttack(attack);
+				
+				yield break;
+			}
+			
+			
 			int currentTick = tickController.Tick;
 			int elapsedTicks = currentTick - startTick;
 			int startup = attack.Startup;
@@ -347,12 +424,20 @@ public class CharacterController2D: MonoBehaviour {
 			
 			
 			if(elapsedTicks <= attack.Startup){
+				startCount++;
+				
 				this.attackState = AttackState.StartUp;
 				this.attackEXState = AttackEXState.None;
 				this.attackSPState = AttackSPState.None;
 				
 			}
 			if(elapsedTicks > startup && elapsedTicks <= active){
+				activeCount++;
+				
+				if(activeCount == 1){
+					this.SendHitPacket(attack.GetHitPacket());
+				}
+				
 				this.startRenderer.sprite = null;
 				this.mainRenderer.sprite = attack.Sprite;
 				this.SetBoxData(attack.BoxData);
@@ -363,6 +448,12 @@ public class CharacterController2D: MonoBehaviour {
 				
 			}
 			if(elapsedTicks > active && elapsedTicks <= recovery){
+				recoveryCount++;
+				
+				if(recoveryCount == 1){
+					this.ResetHitPackets();
+				}
+				
 				BoxData nData = new BoxData();
 				nData.SetHurtBoxes(new BoxPos(), new BoxPos(), new BoxPos());
 				this.SetHurtBoxData(nData);
@@ -373,13 +464,170 @@ public class CharacterController2D: MonoBehaviour {
 				
 			}
 			if(elapsedTicks > recovery){
-				this.EndAttack();
+				this.EndAttack(attack);
 				
 				yield break;
 			}
 			yield return 0;
 		}
 	}
+	
+	public void StunCheck(){		
+		if(this.stunTicks > 0){
+			
+			this.StunState = StunState.True;
+			this.stunTicks--;
+			
+			
+		}else{
+			this.StunState = StunState.False;
+			this.HitState = HitState.False;
+		}
+		
+	}
 
+	public void HandleHitPack(List<CollisionFlag> highList, List<CollisionFlag> lowList, List<CollisionFlag> allList){
+	
+		
+	
+	
+	
+	
+	
+	
+		if(this.State == State.Neutral){
+			if(this.blockState == BlockState.True){
+				//Neutral Block low hit
+				for (int i = 0; i < lowList.Count; i++) {
+			
+					this.HitState = HitState.Low;
+					this.BlockState = BlockState.False;
+					this.stunTicks += lowList[i].HitPacket.HitStun;
+					this.health -= lowList[i].HitPacket.Damage;
+					
+					lowList[i].HitPacket.Reset();
+				}
+				//neutral Block high hit
+				for (int i = 0; i < highList.Count; i++) {
+					this.stunTicks += highList[i].HitPacket.BlockStun;
+					
+					highList[i].HitPacket.Reset();
+					
+				}	
+			}
+			if(this.blockState == BlockState.False){
+				//Neutral low hit
+				for (int i = 0; i < lowList.Count; i++) {
+					
+					this.HitState = HitState.Low;
+					this.BlockState = BlockState.False;
+					this.stunTicks += lowList[i].HitPacket.HitStun;
+					this.health -= lowList[i].HitPacket.Damage;
+					
+					lowList[i].HitPacket.Reset();
+					
+				}
+				//Neutral high hit
+				for (int i = 0; i < highList.Count; i++) {
+					this.HitState = HitState.High;
+					this.BlockState = BlockState.False;
+					this.stunTicks += highList[i].HitPacket.HitStun;
+					this.health -= highList[i].HitPacket.Damage;
+					
+					highList[i].HitPacket.Reset();
+					
+				}	
+			}
+			
+		}
+		if(this.State == State.Crouch){
+			if(this.blockState == BlockState.True){
+				//crouch Block high hit
+				for (int i = 0; i < highList.Count; i++) {
+					this.HitState = HitState.High;
+					this.BlockState = BlockState.False;
+					this.stunTicks += highList[i].HitPacket.HitStun;
+					this.health -= highList[i].HitPacket.Damage;
+					
+					highList[i].HitPacket.Reset();
+					
+				}	
+				
+				//crouch Block low hit
+				for (int i = 0; i < lowList.Count; i++) {
+					this.stunTicks += lowList[i].HitPacket.BlockStun;
+					
+					lowList[i].HitPacket.Reset();
+					
+				}
 
+			}
+			if(this.blockState == BlockState.False){
+
+				//crouch high hit
+				for (int i = 0; i < highList.Count; i++) {
+					this.HitState = HitState.High;
+					this.BlockState = BlockState.False;
+					this.stunTicks += highList[i].HitPacket.HitStun;
+					this.health -= highList[i].HitPacket.Damage;
+					
+					highList[i].HitPacket.Reset();
+					
+				}	
+				//crouch low hit
+				for (int i = 0; i < lowList.Count; i++) {
+					
+					this.HitState = HitState.Low;
+					this.BlockState = BlockState.False;
+					this.stunTicks += lowList[i].HitPacket.HitStun;
+					this.health -= lowList[i].HitPacket.Damage;
+					
+					lowList[i].HitPacket.Reset();
+					
+				}
+			}
+			
+			
+		}
+
+		
+	}
+	
+	public void SendHitPacket(HitPacket hPacket){
+		CollisionFlag hurtbox1ColFlag = this.transform.Find("Boxes/HurtBox1").GetComponent<CollisionFlag>();
+		CollisionFlag hurtbox2ColFlag = this.transform.Find("Boxes/HurtBox2").GetComponent<CollisionFlag>();
+		CollisionFlag hurtbox3ColFlag = this.transform.Find("Boxes/HurtBox3").GetComponent<CollisionFlag>();
+		
+		hurtbox1ColFlag.HitPacket = hPacket;
+		hurtbox2ColFlag.HitPacket = hPacket;
+		hurtbox3ColFlag.HitPacket = hPacket;
+		
+	}
+	public void ResetHitPackets(){
+		CollisionFlag hurtbox1ColFlag = this.transform.Find("Boxes/HurtBox1").GetComponent<CollisionFlag>();
+		CollisionFlag hurtbox2ColFlag = this.transform.Find("Boxes/HurtBox2").GetComponent<CollisionFlag>();
+		CollisionFlag hurtbox3ColFlag = this.transform.Find("Boxes/HurtBox3").GetComponent<CollisionFlag>();
+		
+		hurtbox1ColFlag.HitPacket.Reset();
+		hurtbox2ColFlag.HitPacket.Reset();
+		hurtbox3ColFlag.HitPacket.Reset();
+		
+	}
+	
+	public bool IsRightSide(Vector2 vector2){
+		float dir = Vector2.Angle(this.transform.position, vector2);
+		
+//		if(dir < ){
+//		
+//		
+//		}
+	//TODO finish this!!!
+	return true;
+	}
 }
+
+
+
+
+
+

@@ -26,7 +26,11 @@ public enum BlockState{
 	False,
 	True
 }
-
+public enum StunState{
+	False,
+	True,
+	Block
+}
 public enum WalkState{
 	False,
 	Right,
@@ -38,7 +42,11 @@ public enum JumpState{
 	True,
 	InAir
 }
-
+public enum HitState{
+	False,
+	High,
+	Low
+}
 public enum AttackState{
 	Ready,
 	StartUp,

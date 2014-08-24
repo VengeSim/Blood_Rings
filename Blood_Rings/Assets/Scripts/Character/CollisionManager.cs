@@ -1,7 +1,21 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿/*
+	Blood Ring
+	Copyright © 2014 jgumbo@live.com
+*/
 
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System;
+using System.Diagnostics;
+
+using BloodRings;
+using Debug = BloodRings.Debug;
+using Input = BloodRings.Input;
 public class CollisionManager : MonoBehaviour {
+	
+	protected HitPacket hPacket;
 	
 	protected CharacterController2D cController;
 	
@@ -15,7 +29,7 @@ public class CollisionManager : MonoBehaviour {
 	protected CollisionFlag hurtbox2;
 	protected CollisionFlag hurtbox3;
 	
-	protected CollisionFlag[] array;
+	public HitPacket HitPacket {get {return hPacket;}set { hPacket = value;}}
 	
 	void Awake () {
 		this.cController = this.gameObject.GetComponent<CharacterController2D>();
@@ -35,8 +49,74 @@ public class CollisionManager : MonoBehaviour {
 	
 	void Update () {
 		
+		List<CollisionFlag> highList = this.ConsolidateListFirst(hitboxHigh1, hitboxHigh2, hitboxHigh3);
+		List<CollisionFlag> lowList = this.ConsolidateListFirst(hitboxLow1, hitboxLow2, hitboxLow3);
+		List<CollisionFlag> allList = this.ConsolidateListSecond(highList, lowList);
+		
+
 		
 		
+		
+		this.cController.HandleHitPack(highList, lowList, allList);
+		
+		
+//		int[] damageArray = new int[allList.Count];
+//		int[] hitStunArray = new int[allList.Count];
+//		int[] blockStunArray = new int[allList.Count];
+//		float[] pushBackArray = new float[allList.Count];
+//		
+//		for (int i = 0; i < allList.Count; i++) {
+//			HitPacket cPacket = allList[i].HitPacket;
+//			
+//			damageArray[i] = cPacket.Damage;
+//			hitStunArray[i] = cPacket.HitStun;
+//			blockStunArray[i] = cPacket.BlockStun;
+//			pushBackArray[i] = cPacket.PushBack;
+//			
+//		}
+//		
+//		Array.Sort(damageArray);
+//		Array.Sort(hitStunArray);
+//		Array.Sort(blockStunArray);
+//		Array.Sort(pushBackArray);
+//		Array.Reverse(damageArray);
+//		Array.Reverse(hitStunArray);
+//		Array.Reverse(blockStunArray);
+//		Array.Reverse(pushBackArray);	
+
+
+
+		
+	}
+	
+	public List<CollisionFlag> ConsolidateListFirst(CollisionFlag colFlag1, CollisionFlag colFlag2, CollisionFlag colFlag3){
+		List<CollisionFlag> nList  = new List<CollisionFlag>();
+		nList.AddRange(colFlag1.Others);
+		nList.AddRange(colFlag2.Others);
+		nList.AddRange(colFlag3.Others);
+		for (int i = 0; i < nList.Count - 1; i++) {
+			GameObject current = nList[i].gameObject.transform.root.gameObject;
+			GameObject next = nList[i+1].gameObject.transform.root.gameObject;
+			
+			if(current == next){
+				nList.Remove(nList[i+1]);
+			}
+		}
+		return nList;
+	}
+	public List<CollisionFlag> ConsolidateListSecond(List<CollisionFlag> colList1, List<CollisionFlag> colList2){
+		List<CollisionFlag> nList  = new List<CollisionFlag>();
+		nList.AddRange(colList1);
+		nList.AddRange(colList2);
+		for (int i = 0; i < nList.Count - 1; i++) {
+			GameObject current = nList[i].gameObject.transform.root.gameObject;
+			GameObject next = nList[i+1].gameObject.transform.root.gameObject;
+			
+			if(current == next){
+				nList.Remove(nList[i+1]);
+			}
+		}
+		return nList;
 	}
 }
 

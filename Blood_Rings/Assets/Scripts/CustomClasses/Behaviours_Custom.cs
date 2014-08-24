@@ -10,7 +10,9 @@ using Debug = BloodRings.Debug;
 using Input = BloodRings.Input;
 using Action = BloodRings.Action;
 
+#pragma warning disable 0219
 
+//jjj
 namespace BloodRings{
 
 	public static class SetBehaviours{
@@ -34,6 +36,10 @@ namespace BloodRings{
 			CheckState checkStateNeutral = new CheckState(State.Neutral);
 			CheckState checkStateCrouch = new CheckState(State.Crouch);
 			CheckState checkStateInAir = new CheckState(State.InAir);
+			
+			CheckStunState checkStunStateFalse = new CheckStunState(StunState.False);
+			CheckStunState checkStunStateTrue = new CheckStunState(StunState.True);
+			CheckStunState checkStunStateBlock = new CheckStunState(StunState.Block);
 			
 			
 			SetState setNeutralState = new SetState(State.Neutral);
@@ -60,11 +66,20 @@ namespace BloodRings{
 			CheckAttackState checkAttackStateActive = new CheckAttackState(AttackState.Active);
 			CheckAttackState checkAttackStateRecovery = new CheckAttackState(AttackState.Recovery);
 			
+			CheckHitState checkHitStateFalse = new CheckHitState(HitState.False);
+			CheckHitState checkHitStateHigh = new CheckHitState(HitState.High);
+			CheckHitState checkHitStateLow = new CheckHitState(HitState.Low);
+			
+			
 			StartAttack1 startAttack1 = new StartAttack1();
 			StartAttack2 startAttack2 = new StartAttack2();
 			StartAttack3 startAttack3 = new StartAttack3();
 			StartAttack4 startAttack4 = new StartAttack4();
 			
+			StartCrouchAttack1 startCrouchAttack1 = new StartCrouchAttack1();
+			StartCrouchAttack2 startCrouchAttack2 = new StartCrouchAttack2();
+			StartCrouchAttack3 startCrouchAttack3 = new StartCrouchAttack3();
+			StartCrouchAttack4 startCrouchAttack4 = new StartCrouchAttack4();
 			
 			SetBoxData setNeutralBoxData = new SetBoxData(Fighter1BoxData.NEUTRAL);
 			SetBoxData setCrouchBoxData = new SetBoxData(Fighter1BoxData.CROUCH);
@@ -98,9 +113,7 @@ namespace BloodRings{
 
 			
 //********************************************************************************************
-			
-			Selector Movement = new Selector(cController, "MoveMent");
-			
+						
 			Sequence Attack1 = new Sequence(cController, "Attack1");
 			Attack1.AddChild(checkButton1);
 			Attack1.AddChild(startAttack1);
@@ -114,14 +127,50 @@ namespace BloodRings{
 			Attack4.AddChild(checkButton4);
 			Attack4.AddChild(startAttack4);
 			
+			Sequence crouchAttack1 = new Sequence(cController, "CrouchAttack1");
+			crouchAttack1.AddChild(checkDown);
+			crouchAttack1.AddChild(checkButton1);
+			crouchAttack1.AddChild(startCrouchAttack1);
+			Sequence crouchAttack2 = new Sequence(cController, "CrouchAttack2");
+			crouchAttack2.AddChild(checkDown);
+			crouchAttack2.AddChild(checkButton2);
+			crouchAttack2.AddChild(startCrouchAttack2);
+			Sequence crouchAttack3 = new Sequence(cController, "CrouchAttack3");
+			crouchAttack3.AddChild(checkDown);
+			crouchAttack3.AddChild(checkButton3);
+			crouchAttack3.AddChild(startCrouchAttack3);
+			Sequence crouchAttack4 = new Sequence(cController, "CrouchAttack4");
+			crouchAttack4.AddChild(checkDown);
+			crouchAttack4.AddChild(checkButton4);
+			crouchAttack4.AddChild(startCrouchAttack4);
+			
+			Selector CrouchAttacks = new Selector(cController, "CrouchAttacks");
+			CrouchAttacks.AddChild(crouchAttack1);
+			CrouchAttacks.AddChild(crouchAttack2);
+			CrouchAttacks.AddChild(crouchAttack3);
+			CrouchAttacks.AddChild(crouchAttack4);
+			
+			Selector NeutralAttacks = new Selector(cController, "Attacks");
+			NeutralAttacks.AddChild(checkJumpStateInAir);
+			NeutralAttacks.AddChild(Attack1);
+			NeutralAttacks.AddChild(Attack2);
+			NeutralAttacks.AddChild(Attack3);
+			NeutralAttacks.AddChild(Attack4);
+
+
 //********************************************************************************************
 			
 			
-			Sequence ResetStates = new Sequence(cController, "ResetStates");
-			ResetStates.AddChild(setWalkStateFalse);
-			ResetStates.AddChild(setBlockStateFalse);
-			ResetStates.AddChild(setNeutralState);
-			ResetStates.AddChild(returnFalse);
+			Sequence ResetStates_P1 = new Sequence(cController, "ResetStates");
+			ResetStates_P1.AddChild(setWalkStateFalse);
+			
+			ResetStates_P1.AddChild(returnFalse);
+			
+			Sequence ResetStates_P2 = new Sequence(cController, "ResetStates");
+			ResetStates_P2.AddChild(setNeutralState);
+			ResetStates_P2.AddChild(setBlockStateFalse);
+			
+			ResetStates_P2.AddChild(returnFalse);
 			
 			Sequence Turn = new Sequence(cController, "Prioity 0");
 			Turn.AddChild(checkTurn);
@@ -171,31 +220,34 @@ namespace BloodRings{
 			Neutral.AddChild(setNeutralState);
 			Neutral.AddChild(setNeutralBoxData);
 			
-//*****************************************************************************
-			
-			Selector Attacks = new Selector(cController, "Attacks");
-			Attacks.AddChild(checkJumpStateInAir);
-			Attacks.AddChild(Attack1);
-			Attacks.AddChild(Attack2);
-			Attacks.AddChild(Attack3);
-			Attacks.AddChild(Attack4);
-			
+//*****************************************************************************		
+//ATTACKS	
+				
+				
+				
 //*****************************************************************************			
 			
 			Selector startNode = new Selector(cController, "StartNode");
 
-			
-			startNode.AddChild(ResetStates);
-			
+
 			startNode.AddChild(checkAttackStateStartUp);
 			startNode.AddChild(checkAttackStateActive);
 			startNode.AddChild(checkAttackStateRecovery);
+			
+			
+			startNode.AddChild(ResetStates_P1);
+			
+			startNode.AddChild(checkStunStateTrue);
+			
+			startNode.AddChild(ResetStates_P2);
+			
 			
 			startNode.AddChild(Turn);
 			startNode.AddChild(BlockAndCrouch);
 			startNode.AddChild(Block);
 			
-			startNode.AddChild(Attacks);
+			startNode.AddChild(CrouchAttacks);
+			startNode.AddChild(NeutralAttacks);
 			
 
 			startNode.AddChild(Crouch);
@@ -263,6 +315,35 @@ namespace BloodRings{
 		}
 		protected override BH_STATUS Update (){
 			if (cController.JumpState == this.state){
+				return BH_STATUS.BH_SUCCESS;
+			}else{
+				return BH_STATUS.BH_FAILURE;
+			}
+		}
+	}
+	
+	public class CheckHitState : Condition{
+		protected HitState state;
+		public CheckHitState(HitState state){
+			this.state = state;
+			
+		}
+		protected override BH_STATUS Update (){
+			if (cController.HitState == this.state){
+				return BH_STATUS.BH_SUCCESS;
+			}else{
+				return BH_STATUS.BH_FAILURE;
+			}
+		}
+	}
+	public class CheckStunState : Condition{
+		protected StunState state;
+		public CheckStunState(StunState state){
+			this.state = state;
+			
+		}
+		protected override BH_STATUS Update (){
+			if (cController.StunState == this.state){
 				return BH_STATUS.BH_SUCCESS;
 			}else{
 				return BH_STATUS.BH_FAILURE;
@@ -406,13 +487,12 @@ namespace BloodRings{
 			return BH_STATUS.BH_SUCCESS;
 		}
 	}
-	
 	public class StartAttack1 : Action{
 		public StartAttack1(){}
 		protected override BH_STATUS Update (){
-	
+			
 			this.cController.Attack1();
-
+			
 			return BH_STATUS.BH_SUCCESS;
 		}
 	} 
@@ -443,6 +523,45 @@ namespace BloodRings{
 			return BH_STATUS.BH_SUCCESS;
 		}
 	}
+	
+	public class StartCrouchAttack1 : Action{
+		public StartCrouchAttack1(){}
+		protected override BH_STATUS Update (){
+	
+			this.cController.CrouchAttack1();
+
+			return BH_STATUS.BH_SUCCESS;
+		}
+	} 
+	public class  StartCrouchAttack2 : Action{
+		public StartCrouchAttack2(){}
+		protected override BH_STATUS Update (){
+			
+			this.cController.CrouchAttack2();
+			
+			return BH_STATUS.BH_SUCCESS;
+		}
+	}
+	public class StartCrouchAttack3 : Action{
+		public StartCrouchAttack3(){}
+		protected override BH_STATUS Update (){
+			
+			this.cController.CrouchAttack3();
+			
+			return BH_STATUS.BH_SUCCESS;
+		}
+	}
+	public class StartCrouchAttack4 : Action{
+		public StartCrouchAttack4(){}
+		protected override BH_STATUS Update (){
+			
+			this.cController.CrouchAttack4();
+			
+			return BH_STATUS.BH_SUCCESS;
+		}
+	}
+	
+
 }
 
 

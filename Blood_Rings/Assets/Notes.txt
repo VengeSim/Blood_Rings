@@ -4,5 +4,4 @@
 */
 
 
-Jump Off player bug - add seperete flag to check for platforms or characrter flags
-	(character flags count as grounded)
+
