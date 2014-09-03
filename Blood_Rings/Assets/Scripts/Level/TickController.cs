@@ -16,6 +16,7 @@ using Input = BloodRings.Input;
 
 public class TickController : MonoBehaviour {
 	
+	public float timeBetweenTicks = 0.06f;
 	public int tick = 0;
 	
 	void Start (){		
@@ -37,7 +38,7 @@ public class TickController : MonoBehaviour {
 			this.tick += 1;
 			Debug.Log("[Tick_" + this.tick + "]");
 			
-			yield return 0;
+			yield return new WaitForSeconds(timeBetweenTicks);
 		}
 	}
 	

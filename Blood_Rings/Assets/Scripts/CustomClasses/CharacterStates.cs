@@ -47,6 +47,7 @@ public enum HitState{
 	High,
 	Low
 }
+
 public enum AttackState{
 	Ready,
 	StartUp,

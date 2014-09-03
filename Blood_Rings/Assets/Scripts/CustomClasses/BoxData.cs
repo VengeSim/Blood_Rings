@@ -47,10 +47,8 @@ public class BoxPos{
 
 public class BoxData{
 	
-	protected BoxPos top;
-	protected BoxPos bottom;
-	protected BoxPos front;
-	protected BoxPos back;
+	protected BoxPos physical;
+	
 	protected BoxPos hitBoxHigh1;
 	protected BoxPos hitBoxHigh2;
 	protected BoxPos hitBoxHigh3;
@@ -62,10 +60,6 @@ public class BoxData{
 	protected BoxPos hurtBox3;
 
 	public BoxData(){
-		this.top = new BoxPos();
-		this.bottom = new BoxPos();
-		this.front = new BoxPos();
-		this.back = new BoxPos();
 		this.hitBoxHigh1 = new BoxPos();
 		this.hitBoxHigh2 = new BoxPos();
 		this.hitBoxHigh3 = new BoxPos();
@@ -75,28 +69,38 @@ public class BoxData{
 		this.hurtBox1 = new BoxPos();
 		this.hurtBox2 = new BoxPos();
 		this.hurtBox3 = new BoxPos();
+		this.physical = new BoxPos();
+		
 	}
 	
 	public BoxData(BoxPos[] boxes){
-		this.top = boxes[0];
-		this.bottom = boxes[1];
-		this.front = boxes[2];
-		this.back = boxes[3];
-		this.hitBoxHigh1 = boxes[4];
-		this.hitBoxHigh2 = boxes[5];
-		this.hitBoxHigh3 = boxes[6];
-		this.hitBoxLow1 = boxes[7];
-		this.hitBoxLow2 = boxes[8];
-		this.hitBoxLow3 = boxes[9];
-		this.hurtBox1 = boxes[10];
-		this.hurtBox2 = boxes[11];
-		this.hurtBox3 = boxes[12];
+		this.hitBoxHigh1 = boxes[0];
+		this.hitBoxHigh2 = boxes[1];
+		this.hitBoxHigh3 = boxes[2];
+		this.hitBoxLow1 = boxes[3];
+		this.hitBoxLow2 = boxes[4];
+		this.hitBoxLow3 = boxes[5];
+		this.hurtBox1 = boxes[6];
+		this.hurtBox2 = boxes[7];
+		this.hurtBox3 = boxes[8];
+		this.physical = boxes[9];
+		
+	}
+	public BoxData(BoxData bData){
+		this.hitBoxHigh1 = bData.HitboxHigh1;
+		this.hitBoxHigh2 = bData.HitboxHigh2;
+		this.hitBoxHigh3 = bData.HitboxHigh3;
+		this.hitBoxLow1 = bData.HitboxLow1;
+		this.hitBoxLow2 = bData.HitboxLow2;
+		this.hitBoxLow3 = bData.HitboxLow3;
+		this.hurtBox1 = bData.HurtBox1;
+		this.hurtBox2 = bData.HurtBox2;
+		this.hurtBox3 = bData.HurtBox3;
+		this.physical = bData.physical;
+		
 	}
 	
-	public BoxPos Top {get {return top;}}
-	public BoxPos Bottom {get {return bottom;}}
-	public BoxPos Front {get {return front;}}
-	public BoxPos Back {get {return back;}}
+	public BoxPos Physical {get {return physical;}}
 	public BoxPos HitboxHigh1 {get {return hitBoxHigh1;}}
 	public BoxPos HitboxHigh2 {get {return hitBoxHigh2;}}
 	public BoxPos HitboxHigh3 {get {return hitBoxHigh3;}}
@@ -108,11 +112,8 @@ public class BoxData{
 	public BoxPos HurtBox3 {get {return hurtBox3;}}
 	
 	
-	public void SetFlagBoxes(BoxPos box1, BoxPos box2, BoxPos box3, BoxPos box4){
-		this.top = box1;
-		this.bottom = box2;
-		this.front = box3;
-		this.back = box4;
+	public void SetPhysicalBoxes(BoxPos box1){
+		this.physical = box1;
 	}
 	public void SetHitBoxes(BoxPos box1, BoxPos box2, BoxPos box3, BoxPos box4, BoxPos box5, BoxPos box6){
 		this.hitBoxHigh1 = box1;
@@ -167,11 +168,9 @@ public static class Fighter1BoxData{
 	public static BoxData Neutral(){
 		BoxData nBoxData = new BoxData();
 	
-		BoxPos top = new BoxPos(0.51f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.33f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.05f, 1.25f, 0.32f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 1.31f, -0.35f, 0.79f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.53f, 0.66f, -0.03f, 1.23f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -192,11 +191,9 @@ public static class Fighter1BoxData{
 	public static BoxData Crouch(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.48f, 0.07f, 0.02f, 0.97f);  
-		BoxPos bottom = new BoxPos(0.59f, 0.09f, -0.04f, 0.06f);  
-		BoxPos front = new BoxPos(0.15f, 0.84f, 0.27f, 0.54f);  
-		BoxPos back = new BoxPos(0.06f, 0.86f, -0.19f, 0.51f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.36f, 0.13f, -0.04f, 0.95f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -217,11 +214,9 @@ public static class Fighter1BoxData{
 	public static BoxData Jump(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.51f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.33f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.05f, 1.25f, 0.32f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 1.31f, -0.35f, 0.79f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.53f, 0.66f, -0.03f, 1.23f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -242,11 +237,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_0(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.51f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.33f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.05f, 1.25f, 0.32f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 1.31f, -0.35f, 0.79f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.44f, 0.64f, -0.03f, 1.23f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.6f, 0.18f, 0.41f, 1.24f);  
@@ -267,11 +260,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_1(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.51f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.33f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.05f, 1.25f, 0.32f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 1.31f, -0.35f, 0.79f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.29f, 0.7f, 0.18f, 1.26f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.36f, 0.15f, 0.5f, 1.27f);  
@@ -291,11 +282,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_2(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(1.29f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.21f, 0.06f, -0.06f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 0.27f, 0.63f, 1.46f);  
-		BoxPos back = new BoxPos(0.06f, 0.53f, -0.57f, 1.27f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.42f, 0.7f, -0.45f, 1.23f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.32f, 0.24f, 0.47f, 1.45f);  
@@ -315,11 +304,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_3(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.37f, 0.06f, 0f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.21f, 0.06f, -0.12f, 0.05f);  
-		BoxPos front = new BoxPos(0.1f, 0.27f, 0.52f, 0.55f);  
-		BoxPos back = new BoxPos(0.06f, 1.28f, -0.23f, 0.73f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.57f, 0.7f, -0.06f, 1.23f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -339,11 +326,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_4(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.88f, 0.06f, 0.29f, 0.93f);  
-		BoxPos bottom = new BoxPos(0.57f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 0.22f, 0.76f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 0.76f, -0.26f, 0.52f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.47f, 0.12f, 0.06f, 0.98f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -363,11 +348,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_5(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.57f, 0.07f, 0.2f, 0.94f);  
-		BoxPos bottom = new BoxPos(0.57f, 0.05f, -0.02f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 0.16f, 0.69f, 0.81f);  
-		BoxPos back = new BoxPos(0.08f, 0.74f, -0.16f, 0.55f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.49f, 0.12f, 0.06f, 0.96f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.19f, 0.12f, 0.61f, 0.82f);  
@@ -387,11 +370,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_6(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.23f, 0.06f, 0.08f, 1.09f);  
-		BoxPos bottom = new BoxPos(1.24f, 0.05f, 0.28f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 0.16f, 0.85f, 0.23f);  
-		BoxPos back = new BoxPos(0.05f, 0.92f, -0.25f, 0.58f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.32f, 0.51f, 0.03f, 0.83f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -411,11 +392,9 @@ public static class Fighter1BoxData{
 	public static BoxData AttackSheet_7(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos top = new BoxPos(0.23f, 0.09f, 0.11f, 0.94f);  
-		BoxPos bottom = new BoxPos(1.24f, 0.05f, 0.28f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 0.16f, 0.94f, 0.23f);  
-		BoxPos back = new BoxPos(0.08f, 0.62f, -0.16f, 0.49f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
+		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
+		
+		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.32f, 0.39f, 0.09f, 0.77f);  
 		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
@@ -433,49 +412,6 @@ public static class Fighter1BoxData{
 		return nBoxData;
 	}
 }
-
-
-
-public static class DummyBoxData{
-	
-	public static BoxData NEUTRAL;
-
-	
-	static DummyBoxData(){
-		
-		NEUTRAL = Neutral();
-
-	}
-	
-	public static BoxData Neutral(){
-		BoxData nBoxData = new BoxData();
-		
-		BoxPos top = new BoxPos(0.17f, 0.06f, 0.03f, 1.58f);  
-		BoxPos bottom = new BoxPos(0.84f, 0.05f, 0f, 0.05f);  
-		BoxPos front = new BoxPos(0.06f, 1.25f, 0.23f, 0.79f);  
-		BoxPos back = new BoxPos(0.05f, 1.31f, -0.29f, 0.79f);  
-		nBoxData.SetFlagBoxes(top, bottom, front, back);
-		
-		BoxPos hitBoxHigh1 = new BoxPos(0.24f, 0.69f, 0.02f, 1.2f);  
-		BoxPos hitBoxHigh2 = new BoxPos(0.24f, 0.56f, -0.17f, 1.09f);  
-		BoxPos hitBoxHigh3 = new BoxPos(0.21f, 0.39f, 0.23f, 0.95f);  
-		BoxPos hitBoxLow1 = new BoxPos(0.22f, 0.68f, 0.25f, 0.33f);  
-		BoxPos hitBoxLow2 = new BoxPos(0.22f, 0.74f, -0.27f, 0.43f);  
-		BoxPos hitBoxLow3 = new BoxPos(0.19f, 0.29f, -0.02f, 0.64f);  
-		nBoxData.SetHitBoxes(hitBoxHigh1, hitBoxHigh2, hitBoxHigh3, hitBoxLow1, hitBoxLow2, hitBoxLow3);
-		
-		BoxPos hurtBox1 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
-		BoxPos hurtBox2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
-		BoxPos hurtBox3 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
-		nBoxData.SetHurtBoxes(hurtBox1, hurtBox2, hurtBox3);
-		
-		return nBoxData;
-	}
-
-}
-
-
-
 
 
 

@@ -4,4 +4,13 @@
 */
 
 
+Campaign set on a grid, with tiles representing terrain types. Randomly generated
+ types of terrains offer different training / perks and special moves e.g
+	forest - stealth, climbing, hidden/masked attacks
+	desert - long range projectiles, High stamina, walk speed
+	mountains - Jumping and climbing short range projectiles
+	plains - mixed styles
+	
+Scatter underworld types throught the worldthat offer special moves like Teleport, Fire balls
 
+A world tourneyment arenas that a built to incorperate all the terrain style levels in one

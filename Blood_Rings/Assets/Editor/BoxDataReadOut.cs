@@ -23,18 +23,15 @@ public class BoxDataReadOut : Editor
 		BoxOutput myTarget = (BoxOutput)target;
 		GameObject gObject = myTarget.gameObject;
 		
-		BoxCollider2D topCol = gObject.transform.parent.transform.Find("Flags/Top").GetComponent<BoxCollider2D>();
-		BoxCollider2D bottomCol = gObject.transform.parent.transform.Find("Flags/Bottom").GetComponent<BoxCollider2D>();
-		BoxCollider2D frontCol = gObject.transform.parent.transform.Find("Flags/Front").GetComponent<BoxCollider2D>();
-		BoxCollider2D backCol = gObject.transform.parent.transform.Find("Flags/Back").GetComponent<BoxCollider2D>();
+		BoxCollider2D physicalCol = gObject.transform.parent.transform.Find("PhysicalBox").GetComponent<BoxCollider2D>();
 		
-		BoxCollider2D hitboxHigh1Col = gObject.transform.Find("High/HitBoxHigh1").GetComponent<BoxCollider2D>();
-		BoxCollider2D hitboxHigh2Col = gObject.transform.Find("High/HitBoxHigh2").GetComponent<BoxCollider2D>();
-		BoxCollider2D hitboxHigh3Col = gObject.transform.Find("High/HitBoxHigh3").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxHigh1Col = gObject.transform.Find("HitBoxHigh1").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxHigh2Col = gObject.transform.Find("HitBoxHigh2").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxHigh3Col = gObject.transform.Find("HitBoxHigh3").GetComponent<BoxCollider2D>();
 		
-		BoxCollider2D hitboxLow1Col = gObject.transform.Find("Low/HitBoxLow1").GetComponent<BoxCollider2D>();
-		BoxCollider2D hitboxLow2Col = gObject.transform.Find("Low/HitBoxLow2").GetComponent<BoxCollider2D>();
-		BoxCollider2D hitboxLow3Col = gObject.transform.Find("Low/HitBoxLow3").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxLow1Col = gObject.transform.Find("HitBoxLow1").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxLow2Col = gObject.transform.Find("HitBoxLow2").GetComponent<BoxCollider2D>();
+		BoxCollider2D hitboxLow3Col = gObject.transform.Find("HitBoxLow3").GetComponent<BoxCollider2D>();
 		
 		BoxCollider2D hurtbox1Col = gObject.transform.Find("HurtBox1").GetComponent<BoxCollider2D>();
 		BoxCollider2D hurtbox2Col = gObject.transform.Find("HurtBox2").GetComponent<BoxCollider2D>();
@@ -46,11 +43,8 @@ public class BoxDataReadOut : Editor
 			
 			
 			
-			"BoxPos top = new BoxPos(" + topCol.size.x.ToString() + "f, " + topCol.size.y.ToString() + "f, " + topCol.center.x.ToString()  + "f, " + topCol.center.y.ToString() + "f);  \n" +
-			"BoxPos bottom = new BoxPos(" + bottomCol.size.x.ToString() + "f, " + bottomCol.size.y.ToString() + "f, " + bottomCol.center.x.ToString()  + "f, " + bottomCol.center.y.ToString() + "f);  \n" +
-			"BoxPos front = new BoxPos(" + frontCol.size.x.ToString() + "f, " + frontCol.size.y.ToString() + "f, " + frontCol.center.x.ToString()  + "f, " + frontCol.center.y.ToString() + "f);  \n" +
-			"BoxPos back = new BoxPos(" + backCol.size.x.ToString() + "f, " + backCol.size.y.ToString() + "f, " + backCol.center.x.ToString()  + "f, " + backCol.center.y.ToString() + "f);  \n" +
-			"nBoxData.SetFlagBoxes(top, bottom, front, back);\n\n" + 
+			"BoxPos physical = new BoxPos(" + physicalCol.size.x.ToString() + "f, " + physicalCol.size.y.ToString() + "f, " + physicalCol.center.x.ToString()  + "f, " + physicalCol.center.y.ToString() + "f);  \n" +
+			"nBoxData.SetPhysicalBoxes(physical);\n\n" + 
 			
 			"BoxPos hitBoxHigh1 = new BoxPos(" + hitboxHigh1Col.size.x.ToString() + "f, " + hitboxHigh1Col.size.y.ToString() + "f, " + hitboxHigh1Col.center.x.ToString()  + "f, " + hitboxHigh1Col.center.y.ToString() + "f);  \n" +
 			"BoxPos hitBoxHigh2 = new BoxPos(" + hitboxHigh2Col.size.x.ToString() + "f, " + hitboxHigh2Col.size.y.ToString() + "f, " + hitboxHigh2Col.center.x.ToString()  + "f, " + hitboxHigh2Col.center.y.ToString() + "f);  \n" +

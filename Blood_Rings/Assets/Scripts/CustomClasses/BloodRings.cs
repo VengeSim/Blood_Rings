@@ -25,8 +25,8 @@ namespace BloodRings{
 		
 		public static bool DEBUG_MODE = true;
 		
-		public static string debugFilePath = Application.dataPath + "/Output/Log.txt";
-		public static string inputLogFilePath = Application.dataPath + "/Output/InputLog.txt";
+		public static string debugFilePath = Application.dataPath + "/Resources/Output/Log.txt";
+		public static string inputLogFilePath = Application.dataPath + "/Resources/Output/InputLog.txt";
 		
 		#region Constructor
 		static Debug(){
