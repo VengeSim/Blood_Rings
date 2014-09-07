@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Blood Ring
 	Copyright © 2014 jgumbo@live.com
 */
@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using Input = BloodRings.InputClone;
 
 
 

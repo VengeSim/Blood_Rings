@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using Input = BloodRings.InputClone;
 
 public enum HitType{
 	None,

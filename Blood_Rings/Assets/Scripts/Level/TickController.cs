@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using Input = BloodRings.InputClone;
 
 public class TickController : MonoBehaviour {
 	
@@ -29,7 +29,7 @@ public class TickController : MonoBehaviour {
 	}
 	
 	void OnGUI(){
-		GUILayout.Label(this.tick.ToString());
+	
 	}
 	
 	

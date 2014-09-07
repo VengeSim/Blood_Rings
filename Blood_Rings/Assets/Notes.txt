@@ -1,16 +1,81 @@
-/*
-	Blood Ring
-	Copyright © 2014 jgumbo@live.com
-*/
-
-
-Campaign set on a grid, with tiles representing terrain types. Randomly generated
- types of terrains offer different training / perks and special moves e.g
-	forest - stealth, climbing, hidden/masked attacks
-	desert - long range projectiles, High stamina, walk speed
-	mountains - Jumping and climbing short range projectiles
-	plains - mixed styles
+//******************************************************************************//
+//	Blood Ring																	//
+//	Copyright © 2014 jgumbo@live.com											//
+//******************************************************************************//
+//__________ .__                       .___ __________ .__                 		//
+//\______   \|  |    ____    ____    __| _/ \______   \|__|  ____    ____  		//
+// |    |  _/|  |   /  _ \  /  _ \  / __ |   |       _/|  | /    \  / ___\ 		//
+// |    |   \|  |__(  <_> )(  <_> )/ /_/ |   |    |   \|  ||   |  \/ /_/  >		//
+// |______  /|____/ \____/  \____/ \____ |   |____|_  /|__||___|  /\___  / 		//
+//        \/                            \/          \/          \//_____/ 		//
+//        																		//
+//******************************************************************************//
+//	TODO																		//
+//******************************************************************************//
+- [DONE] add lists to inputMon to record the user inputs for sequences. 
+	Maybe extended to add replays?
 	
-Scatter underworld types throught the worldthat offer special moves like Teleport, Fire balls
+- Extend Attack class to include sprite and inputType(button 1,sequence type 
+	(e.g. qc motion...)) fields then initilize all attack classes in the
+	assetsLoader script with base BoxData. 
+	Add method to Attack class that allows characterStats to modify move boxdata 
+	and other attack properties (Frames...)
 
-A world tourneyment arenas that a built to incorperate all the terrain style levels in one
+- One Way Platforms
+
+
+//******************************************************************************//
+//	BUGS																		//
+//******************************************************************************//
+
+- Stack overflow when both fighters cant move backward and a pushbash hitpacket 
+	is sent between the fighters infinitely
+
+
+
+//******************************************************************************//
+//	IDEAS																		//
+//******************************************************************************//
+
+-Campaign set on a grid, with tiles representing terrain types. Randomly 
+	generated types of terrains offer different training / perks and special 
+	moves e.g
+		forest - stealth, climbing, hidden/masked attacks
+		desert - long range projectiles, High stamina, walk speed
+		mountains - Jumping and climbing short range projectiles
+		plains - mixed styles
+	
+-Scatter underworld types throught the world that offer special moves like 
+	Teleport, Fire balls
+
+-A world tournament arenas that a built to incorperate all the terrain style 
+	levels in one
+
+
+
+//******************************************************************************//
+//	IDEAS																		//
+//******************************************************************************//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Blood Ring
 	Copyright © 2014 jgumbo@live.com
 */
@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using Input = BloodRings.InputClone;
 
 
 
@@ -130,11 +130,13 @@ public class BoxData{
 	}
 }
 
-public static class Fighter1BoxData{
+public static class BOXDATA_FIGHTER_1{
 
 	public static BoxData NEUTRAL;
 	public static BoxData CROUCH;
 	public static BoxData JUMP;
+	public static BoxData KNOCKDOWN;
+	
 	
 	public static BoxData ATTACKSHEET_0;
 	public static BoxData ATTACKSHEET_1;
@@ -148,11 +150,12 @@ public static class Fighter1BoxData{
 	
 	
 	
-	static Fighter1BoxData(){
+	static BOXDATA_FIGHTER_1(){
 		
 		NEUTRAL = Neutral();
 		CROUCH = Crouch();
 		JUMP = Jump();
+		KNOCKDOWN = KnockDown();
 		ATTACKSHEET_0 = AttackSheet_0();
 		ATTACKSHEET_1 = AttackSheet_1();
 		ATTACKSHEET_2 = AttackSheet_2();
@@ -191,8 +194,7 @@ public static class Fighter1BoxData{
 	public static BoxData Crouch(){
 		BoxData nBoxData = new BoxData();
 		
-		BoxPos physical = new BoxPos(0, 0, 0, 0f);  
-		
+		BoxPos physical = new BoxPos(0.65f, 0.86f, 0.02f, 0.47f);		
 		nBoxData.SetPhysicalBoxes(physical);
 		
 		BoxPos hitBoxHigh1 = new BoxPos(0.36f, 0.13f, -0.04f, 0.95f);  
@@ -233,7 +235,27 @@ public static class Fighter1BoxData{
 		
 		return nBoxData;
 	}
-	
+	public static BoxData KnockDown(){
+		BoxData nBoxData = new BoxData();
+		
+		BoxPos physical = new BoxPos(0.98f, 0.28f, -0.15f, 0.2f);  
+		nBoxData.SetPhysicalBoxes(physical);
+		
+		BoxPos hitBoxHigh1 = new BoxPos(0.94f, 0.15f, -0.16f, 0.39f);  
+		BoxPos hitBoxHigh2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		BoxPos hitBoxHigh3 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		BoxPos hitBoxLow1 = new BoxPos(1.38f, 0.23f, 0.01f, 0.18f);  
+		BoxPos hitBoxLow2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		BoxPos hitBoxLow3 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		nBoxData.SetHitBoxes(hitBoxHigh1, hitBoxHigh2, hitBoxHigh3, hitBoxLow1, hitBoxLow2, hitBoxLow3);
+		
+		BoxPos hurtBox1 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		BoxPos hurtBox2 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		BoxPos hurtBox3 = new BoxPos(0.0001f, 0.0001f, 0f, 0f);  
+		nBoxData.SetHurtBoxes(hurtBox1, hurtBox2, hurtBox3);
+		
+		return nBoxData;
+	}
 	public static BoxData AttackSheet_0(){
 		BoxData nBoxData = new BoxData();
 		

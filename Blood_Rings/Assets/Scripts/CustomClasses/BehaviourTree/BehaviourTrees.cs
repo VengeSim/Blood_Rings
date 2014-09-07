@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Diagnostics;
@@ -78,8 +78,8 @@ namespace BloodRings{
 			StartCrouchAttack3 startCrouchAttack3 = new StartCrouchAttack3();
 			StartCrouchAttack4 startCrouchAttack4 = new StartCrouchAttack4();
 			
-			SetBoxData setNeutralBoxData = new SetBoxData(Fighter1BoxData.NEUTRAL);
-			SetBoxData setCrouchBoxData = new SetBoxData(Fighter1BoxData.CROUCH);
+			SetBoxData setNeutralBoxData = new SetBoxData(BOXDATA_FIGHTER_1.NEUTRAL);
+			SetBoxData setCrouchBoxData = new SetBoxData(BOXDATA_FIGHTER_1.CROUCH);
 			
 			GroundFlag groundFlag = new GroundFlag();
 			FrontFlag frontFlag = new FrontFlag();

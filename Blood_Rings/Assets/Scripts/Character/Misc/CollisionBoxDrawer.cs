@@ -43,6 +43,8 @@ public class CollisionBoxDrawer : MonoBehaviour {
 			}else{
 				this.lineRenderer.enabled = false;
 			}
+		}else{
+			this.lineRenderer.enabled = false;
 		}
 	}
 }

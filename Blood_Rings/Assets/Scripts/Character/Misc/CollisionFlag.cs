@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Blood Ring
 	Copyright © 2014 jgumbo@live.com
 */
@@ -12,11 +12,10 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using Input = BloodRings.InputClone;
 
 
 public class CollisionFlag : MonoBehaviour {
-	public Collider2D[] ignoreColliders;
 	
 	protected ObjectController objectController;
 	protected BoxCollider2D boxCol;
@@ -39,9 +38,6 @@ public class CollisionFlag : MonoBehaviour {
 	}
 	
 	void Awake () {
-		for (int i = 0; i < ignoreColliders.GetLength(0); i++) {	
-			Physics2D.GetIgnoreCollision(this.collider2D, this.ignoreColliders[i]);
-		}
 		
 		this.boxCol = this.GetComponent<BoxCollider2D>();
 		this.objectController = this.gameObject.transform.root.GetComponent<ObjectController>();

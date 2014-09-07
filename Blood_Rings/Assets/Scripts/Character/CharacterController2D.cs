@@ -15,13 +15,13 @@ using Debug = BloodRings.Debug;
 using Input = BloodRings.Input;
 
 public class CharacterController2D : ObjectController {
-	public int controller = 1;
+	public int playerNo = 1;
 	
 	
 	public InputMon iMon;
 	public BloodRings.Behaviour inputBehaviour;
 	
-	
+	protected GameController gameController;
 	protected PhysicsController physicsController;
 	protected CollisionController collisionController;
 	protected FxController fxController;
@@ -61,13 +61,16 @@ public class CharacterController2D : ObjectController {
 	public AttackState attackState;
 	public AttackEXState attackEXState;
 	public AttackSPState attackSPState;
-		
-	
+			
 	#region Properties
-	
-	public CollisionController CollisionController{
+	public GameController GameController{
 		get{
-			return this.collisionController;
+			return this.gameController;
+		}
+	}
+	public TickController TickController{
+		get{
+			return this.tickController;
 		}
 	}
 	public PhysicsController PhysicsController{
@@ -80,7 +83,11 @@ public class CharacterController2D : ObjectController {
 			return this.fxController;
 		}
 	}
-	
+	public int PlayerNo{
+		get{
+			return this.playerNo;
+		}
+	}
 	public HitPacket HitPacket{
 		get{
 			return this.hPacket;
@@ -192,7 +199,10 @@ public class CharacterController2D : ObjectController {
 	#endregion
 	
 	void Start () {
-		this.iMon = new InputMon(this.controller);
+		this.iMon = new InputMon(this);
+		
+		this.gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		this.tickController = this.gameController.GetComponent<TickController>();
 		
 		this.physicsController = this.GetComponent<PhysicsController>();
 		this.collisionController = this.GetComponent<CollisionController>();
@@ -202,7 +212,6 @@ public class CharacterController2D : ObjectController {
 		this.mainRenderer = this.transform.Find("Sprite").GetComponent<SpriteRenderer>();
 		this.startRenderer = this.transform.Find("StartupSprite").GetComponent<SpriteRenderer>();
 		
-		this.tickController = GameObject.Find("GameController").GetComponent<TickController>();
 		
 		this.physicalCol = this.transform.Find("Boxes/PhysicalBox").GetComponent<BoxCollider2D>();
 		
@@ -217,7 +226,7 @@ public class CharacterController2D : ObjectController {
 		this.hurtbox3Col = this.transform.Find("Boxes/HurtBox3").GetComponent<BoxCollider2D>();
 		
 		
-		this.SetBoxData(Fighter1BoxData.NEUTRAL);
+		this.SetBoxData(BOXDATA_FIGHTER_1.NEUTRAL);
 		
 		this.inputBehaviour = BloodRings.BehaviourTrees.ControllerInput(this);
 		
@@ -251,8 +260,15 @@ public class CharacterController2D : ObjectController {
 		this.animator.SetInteger("HitState",(int)this.hitState);
 		this.animator.SetInteger("StunState",(int)this.stunState);
 		
+		if(this.health <= 0){
+			this.animator.SetBool("KnockDown", true);
+			this.SetBoxData(BOXDATA_FIGHTER_1.KNOCKDOWN);
+		}
 		
-		
+//		break timer		
+//		if(this.tickController.Tick == 500){
+//			
+//		}
 	}
 	
 	public bool CanMoveLeft(){

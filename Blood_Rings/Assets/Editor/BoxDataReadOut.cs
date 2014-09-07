@@ -23,7 +23,7 @@ public class BoxDataReadOut : Editor
 		BoxOutput myTarget = (BoxOutput)target;
 		GameObject gObject = myTarget.gameObject;
 		
-		BoxCollider2D physicalCol = gObject.transform.parent.transform.Find("PhysicalBox").GetComponent<BoxCollider2D>();
+		BoxCollider2D physicalCol = gObject.transform.Find("PhysicalBox").GetComponent<BoxCollider2D>();
 		
 		BoxCollider2D hitboxHigh1Col = gObject.transform.Find("HitBoxHigh1").GetComponent<BoxCollider2D>();
 		BoxCollider2D hitboxHigh2Col = gObject.transform.Find("HitBoxHigh2").GetComponent<BoxCollider2D>();
