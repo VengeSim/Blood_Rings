@@ -83,6 +83,21 @@ public class CharacterController2D : ObjectController {
 			return this.fxController;
 		}
 	}
+	public Animator Animator{
+		get{
+			return this.animator;
+		}
+	}
+	public InputMon InputMon{
+		get{
+			return this.iMon;
+		}
+	}
+	public CharacterStats Stats{
+		get{
+			return this.characterStats;
+		}
+	}
 	public int PlayerNo{
 		get{
 			return this.playerNo;
@@ -181,21 +196,7 @@ public class CharacterController2D : ObjectController {
 			this.attackState = value;
 		}
 	}
-	public Animator Animator{
-		get{
-			return this.animator;
-		}
-	}
-	public InputMon InputMon{
-		get{
-			return this.iMon;
-		}
-	}
-	public CharacterStats Stats{
-		get{
-			return this.characterStats;
-		}
-	}
+
 	#endregion
 	
 	void Start () {
@@ -226,7 +227,7 @@ public class CharacterController2D : ObjectController {
 		this.hurtbox3Col = this.transform.Find("Boxes/HurtBox3").GetComponent<BoxCollider2D>();
 		
 		
-		this.SetBoxData(BOXDATA_FIGHTER_1.NEUTRAL);
+		this.SetBoxData(BoxData.FIGHTER_1.NEUTRAL);
 		
 		this.inputBehaviour = BloodRings.BehaviourTrees.ControllerInput(this);
 		
@@ -262,7 +263,7 @@ public class CharacterController2D : ObjectController {
 		
 		if(this.health <= 0){
 			this.animator.SetBool("KnockDown", true);
-			this.SetBoxData(BOXDATA_FIGHTER_1.KNOCKDOWN);
+			this.SetBoxData(BoxData.FIGHTER_1.KNOCKDOWN);
 		}
 		
 //		break timer		

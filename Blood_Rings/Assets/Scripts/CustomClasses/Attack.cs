@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 using BloodRings;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.InputClone;
+using Input = BloodRings.Input;
 
 
 public class Attack{
