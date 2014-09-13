@@ -14,21 +14,41 @@ using BloodRings;
 using BloodRings.Input;
 using Debug = BloodRings.Debug;
 using Input = BloodRings.Input.InputButton;
-using Action = BloodRings.Action;
 
 
 namespace BloodRings{
 	
-	public class StartCrouchAttack4 : Action{
-		public StartCrouchAttack4(){}
-		protected override BH_STATUS Update (){
-			
-			this.cController.CrouchAttack4();
-			
-			return BH_STATUS.BH_SUCCESS;
+	namespace Input{
+	
+				public class InputSequence
+				{
+		
+						protected List<string[]> sequenceList;
+		
+						public InputSequence ()
+						{
+								this.sequenceList = new List<string[]> ();
+						}
+						public InputSequence (List<string[]> sequenceList)
+						{
+								this.sequenceList = sequenceList;
+						}
+				}
+		
 		}
-	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

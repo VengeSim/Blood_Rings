@@ -1,3 +1,8 @@
+/*
+	Blood Ring
+	Copyright © 2014 jgumbo@live.com
+*/
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +11,9 @@ using System;
 using System.Diagnostics;
 
 using BloodRings;
+using BloodRings.Input;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.InputClone;
+using Input = BloodRings.Input.InputButton;
 
 public enum HitType{
 	None,

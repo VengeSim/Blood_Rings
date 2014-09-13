@@ -1,6 +1,19 @@
-﻿using UnityEngine;
+﻿/*
+	Blood Ring
+	Copyright © 2014 jgumbo@live.com
+*/
+
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System;
+using System.Diagnostics;
+
 using BloodRings;
+using BloodRings.Input;
+using Debug = BloodRings.Debug;
+using Input = BloodRings.Input.InputButton;
 
 public class GameController : MonoBehaviour {
 
@@ -45,7 +58,7 @@ public class GameController : MonoBehaviour {
 	
 		this.CameraControl();
 	
-		sequence = fighter1.InputMon.CheckSequenceDirectional(new string[]{"Down", "DownRight", "Right"});
+		sequence = fighter1.InputMon.CheckSequence(new string[]{"Down", "DownRight", "Right", "1"});
 		
 		if(sequence){
 			UnityEngine.Debug.Log("True" + "_" + this.TickController.tick);
@@ -73,8 +86,7 @@ public class GameController : MonoBehaviour {
 		GUILayout.EndHorizontal();
 		
 		GUILayout.BeginHorizontal("box");
-		InputMon.DrawListDebug(fighter1.InputMon.DirectionList);
-		InputMon.DrawListDebug(fighter1.InputMon.ButtonList);
+		InputMon.DrawListDebug(fighter1.InputMon.InputList);
 		GUILayout.EndHorizontal();
 		
 	}

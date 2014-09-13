@@ -11,8 +11,10 @@ using System;
 using System.Diagnostics;
 
 using BloodRings;
+using BloodRings.Input;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.InputClone;
+using Input = BloodRings.Input.InputButton;
+
 public class CollisionController : MonoBehaviour {
 	
 	

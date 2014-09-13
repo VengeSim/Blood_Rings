@@ -8,10 +8,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Diagnostics;
 
 using BloodRings;
+using BloodRings.Input;
 using Debug = BloodRings.Debug;
-using Input = BloodRings.Input;
+using InputButton = BloodRings.Input.InputButton;
 
 
 namespace BloodRings{
@@ -20,52 +22,50 @@ namespace BloodRings{
 		
 		protected CharacterController2D cController;
 		protected int player;
-		protected Input up;
-		protected Input down;
-		protected Input left;
-		protected Input right;
-		protected Input upLeft;
-		protected Input upRight;
-		protected Input downLeft;
-		protected Input downRight;
-		protected Input b1;
-		protected Input b2;
-		protected Input b3;
-		protected Input b4;
-		protected Input turn;
-		protected Input block;
-		protected Input select;
-		protected Input start;
+		protected InputButton up;
+		protected InputButton down;
+		protected InputButton left;
+		protected InputButton right;
+		protected InputButton upLeft;
+		protected InputButton upRight;
+		protected InputButton downLeft;
+		protected InputButton downRight;
+		protected InputButton b1;
+		protected InputButton b2;
+		protected InputButton b3;
+		protected InputButton b4;
+		protected InputButton turn;
+		protected InputButton block;
+		protected InputButton select;
+		protected InputButton start;
 		
-		protected Input[] inputArray;
+		protected InputButton[] inputArray;
 		
 		protected bool noInput;
 		protected int noInputSince;
 		
-		protected InputList directionList;
-		protected InputList buttonList;
+		protected InputList inputList;
 		
 		#region Properties
 		
 		public int Player {get {return player;}}
-		public Input Up {get {return up;}}
-		public Input Down {get {return down;}}
-		public Input Left {get {return left;}}
-		public Input Right {get {return right;}}
-		public Input Button1 {get {return b1;}}
-		public Input Button2 {get {return b2;}}
-		public Input Button3 {get {return b3;}}
-		public Input Button4 {get {return b4;}}
-		public Input Turn {get {return turn;}}
-		public Input Block {get {return block;}}
-		public Input Select {get {return select;}}
-		public Input Start {get {return start;}}
+		public InputButton Up {get {return up;}}
+		public InputButton Down {get {return down;}}
+		public InputButton Left {get {return left;}}
+		public InputButton Right {get {return right;}}
+		public InputButton Button1 {get {return b1;}}
+		public InputButton Button2 {get {return b2;}}
+		public InputButton Button3 {get {return b3;}}
+		public InputButton Button4 {get {return b4;}}
+		public InputButton Turn {get {return turn;}}
+		public InputButton Block {get {return block;}}
+		public InputButton Select {get {return select;}}
+		public InputButton Start {get {return start;}}
 
 		public bool NoInput {get {return noInput;}}		
 		public int NoInputSince {get {return noInputSince;}}
 		
-		public InputList DirectionList {get {return this.directionList;}}
-		public InputList ButtonList {get {return this.buttonList;}}
+		public InputList InputList {get {return this.inputList;}}
 		
 		#endregion
 		
@@ -73,25 +73,25 @@ namespace BloodRings{
 		public InputMon(CharacterController2D cController ){
 			this.cController = cController;
 			this.player = cController.PlayerNo;
-			this.up = new Input(player, "Up");
-			this.down = new Input(player, "Down");
-			this.left = new Input(player, "Left");
-			this.right = new Input(player, "Right");
-			this.downLeft = new InputDouble(this.down, this.left);
-			this.downRight = new InputDouble(this.down, this.right);
-			this.upLeft = new InputDouble(this.up, this.left);
-			this.upRight = new InputDouble(this.up, this.right);
+			this.up = new InputButton(player, "Up", BloodRingsAssets.SPRITES_INPUT_ICONS[0]);
+			this.down = new InputButton(player, "Down", BloodRingsAssets.SPRITES_INPUT_ICONS[1]);
+			this.left = new InputButton(player, "Left", BloodRingsAssets.SPRITES_INPUT_ICONS[2]);
+			this.right = new InputButton(player, "Right", BloodRingsAssets.SPRITES_INPUT_ICONS[3]);
+			this.downLeft = new DoubleInput(this.down, this.left, BloodRingsAssets.SPRITES_INPUT_ICONS[4]);
+			this.downRight = new DoubleInput(this.down, this.right, BloodRingsAssets.SPRITES_INPUT_ICONS[5]);
+			this.upLeft = new DoubleInput(this.up, this.left, BloodRingsAssets.SPRITES_INPUT_ICONS[6]);
+			this.upRight = new DoubleInput(this.up, this.right, BloodRingsAssets.SPRITES_INPUT_ICONS[7]);
 	
-			this.b1 = new Input(player, "1");
-			this.b2 = new Input(player, "2");
-			this.b3 = new Input(player, "3");
-			this.b4 = new Input(player, "4");
-			this.turn = new Input(player, "Turn");
-			this.block = new Input(player, "Block");
-			this.select = new Input(player, "Select");
-			this.start = new Input(player, "Start");
+			this.b1 = new InputButton(player, "1", BloodRingsAssets.SPRITES_INPUT_ICONS[8]);
+			this.b2 = new InputButton(player, "2", BloodRingsAssets.SPRITES_INPUT_ICONS[9]);
+			this.b3 = new InputButton(player, "3", BloodRingsAssets.SPRITES_INPUT_ICONS[10]);
+			this.b4 = new InputButton(player, "4", BloodRingsAssets.SPRITES_INPUT_ICONS[11]);
+			this.turn = new InputButton(player, "Turn", BloodRingsAssets.SPRITES_INPUT_ICONS[12]);
+			this.block = new InputButton(player, "Block", BloodRingsAssets.SPRITES_INPUT_ICONS[13]);
+			this.select = new InputButton(player, "Select", BloodRingsAssets.SPRITES_INPUT_ICONS[0]);
+			this.start = new InputButton(player, "Start", BloodRingsAssets.SPRITES_INPUT_ICONS[0]);
 			
-			this.inputArray = new Input[]{
+			this.inputArray = new InputButton[]{
  
 							this.up, 
 							this.down, 
@@ -114,8 +114,7 @@ namespace BloodRings{
 			this.noInput = false;
 			this.noInputSince = 0;
 			
-			this.directionList = new InputList();
-			this.buttonList = new InputList();
+			this.inputList = new InputList();
 		}
 		#endregion
 		
@@ -132,79 +131,134 @@ namespace BloodRings{
 				this.noInputSince ++;
 			}else{
 				
-				this.UpdateButtonInputList();
-				this.UpdateDirectionalInputList();
+				this.UpdateInputList();
 			
 				this.noInput = false;
 				this.noInputSince = 0;
 			}
 		}
 		
-		private void UpdateDirectionalInputList(){
-
-			if(this.downLeft.AntiTurbo){
-				directionList.Add(this.downLeft.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.downRight.AntiTurbo){
-				directionList.Add(this.downRight.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.upLeft.AntiTurbo){
-				directionList.Add(this.upLeft.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.upRight.AntiTurbo){
-				directionList.Add(this.upRight.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.down.AntiTurbo){
-				directionList.Add(this.down.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.up.AntiTurbo){
-				directionList.Add(this.up.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.left.AntiTurbo){
-				directionList.Add(this.left.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-			if(this.right.AntiTurbo){
-				directionList.Add(this.right.GetClone(this.cController.TickController.Tick));
-				return;
-			}
-		}
-		private void UpdateButtonInputList(){
-		
-			List<InputClone> tempList= new List<InputClone>();
+		private void UpdateInputList(){
+			List<InputCopy> tempList = new List<InputCopy>();
 			
-			if(this.b1.AntiTurbo){
-				tempList.Add(this.b1.GetClone(this.cController.TickController.Tick));
-			}
-			if(this.b2.AntiTurbo){
-				tempList.Add(this.b2.GetClone(this.cController.TickController.Tick));
-			}
-			if(this.b3.AntiTurbo){
-				tempList.Add(this.b3.GetClone(this.cController.TickController.Tick));
-			}
-			if(this.b4.AntiTurbo){
-				tempList.Add(this.b4.GetClone(this.cController.TickController.Tick));
-			}
-			if(this.block.AntiTurbo){
-				tempList.Add(this.block.GetClone(this.cController.TickController.Tick));
-			}
-			if(this.turn.AntiTurbo){
-				tempList.Add(this.turn.GetClone(this.cController.TickController.Tick));
-			}
+			List<InputCopy> directionList = this.UpdateDirectionalInputList();
+			List<InputCopy> buttonList = this.UpdateButtonInputList();
+			
+//			if(directionList.Count == 0 && buttonList.Count > 0){
+//				directionList = this.UpdateDirectionalInputListSecondary();
+//			}
+			
+			tempList.AddRange(directionList);
+			tempList.AddRange(buttonList);
 			
 			if(tempList.Count > 0){
-				InputClone[] tempArray = tempList.ToArray();
-				buttonList.Add(tempArray);
+				InputCopy[] tempArray = tempList.ToArray();
+				inputList.Add(tempArray);
 			}
+		}
+		
+		private List<InputCopy> UpdateDirectionalInputList(){
+			List<InputCopy> tempList = new List<InputCopy>();
+			
+			if(this.downLeft.AntiTurbo){
+				tempList.Add(this.downLeft.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.downRight.AntiTurbo){
+				tempList.Add(this.downRight.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.upLeft.AntiTurbo){
+				tempList.Add(this.upLeft.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.upRight.AntiTurbo){
+				tempList.Add(this.upRight.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.down.AntiTurbo){
+				tempList.Add(this.down.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.up.AntiTurbo){
+				tempList.Add(this.up.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.left.AntiTurbo){
+				tempList.Add(this.left.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.right.AntiTurbo){
+				tempList.Add(this.right.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			
+			return tempList;
+		}
+		private List<InputCopy> UpdateDirectionalInputListSecondary(){
+			List<InputCopy> tempList = new List<InputCopy>();
+			
+			if(this.downLeft.State){
+				tempList.Add(this.downLeft.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.downRight.State){
+				tempList.Add(this.downRight.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.upLeft.State){
+				tempList.Add(this.upLeft.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.upRight.State){
+				tempList.Add(this.upRight.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.down.State){
+				tempList.Add(this.down.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.up.State){
+				tempList.Add(this.up.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.left.State){
+				tempList.Add(this.left.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			if(this.right.State){
+				tempList.Add(this.right.GetCopy(this.cController.TickController.Tick));
+				return tempList;
+			}
+			
+			return tempList;
+		}
+		private List<InputCopy> UpdateButtonInputList(){
+			List<InputCopy> tempList = new List<InputCopy>();
+			
+			if(this.b1.AntiTurbo){
+				tempList.Add(this.b1.GetCopy(this.cController.TickController.Tick));
+			}
+			if(this.b2.AntiTurbo){
+				tempList.Add(this.b2.GetCopy(this.cController.TickController.Tick));
+			}
+			if(this.b3.AntiTurbo){
+				tempList.Add(this.b3.GetCopy(this.cController.TickController.Tick));
+			}
+			if(this.b4.AntiTurbo){
+				tempList.Add(this.b4.GetCopy(this.cController.TickController.Tick));
+			}
+			if(this.block.AntiTurbo){
+				tempList.Add(this.block.GetCopy(this.cController.TickController.Tick));
+			}
+			if(this.turn.AntiTurbo){
+				tempList.Add(this.turn.GetCopy(this.cController.TickController.Tick));
+			}
+			
+			return tempList;
 
 		}
-		public Input FindInput(String name){
+		public InputButton FindInput(String name){
 		
 			for (int i = 0; i < this.inputArray.GetLength(0); i++) {
 				if(this.inputArray[i].Name == name){
@@ -215,19 +269,19 @@ namespace BloodRings{
 			
 		}
 		
-		public bool CheckSequenceDirectional(String[] sequence){
+		public bool CheckSequence(String[] sequence){
 		
-			if(this.directionList.List.Count < sequence.GetLength(0)){
+			if(this.inputList.List.Count < sequence.GetLength(0)){
 				return false;
 			}
 			Array.Reverse(sequence);
 			int maxTickGap = 10;
 			int matches = 0;
-			List<InputClone[]> reversedDirectionList = this.directionList.ListReversed;
+			List<InputCopy[]> reversedDirectionList = this.inputList.ListReversed;
 			
 			for (int i = 0; i < sequence.GetLength(0); i++) {
 			
-				InputClone[] cInputArray = reversedDirectionList[i];
+				InputCopy[] cInputArray = reversedDirectionList[i];
 				
 				for (int j = 0; j < cInputArray.GetLength(0); j++) {
 				
@@ -267,7 +321,7 @@ namespace BloodRings{
 		
 		public static void DrawListDebug(InputList list){
 		
-			List<InputClone[]> tempList= list.ListReversed;
+			List<InputCopy[]> tempList= list.ListReversed;
 			
 			GUILayout.BeginVertical("box");
 			
@@ -277,7 +331,8 @@ namespace BloodRings{
 				for (int j = 0; j < tempList[i].GetLength(0); j++) {
 
 					GUILayout.Label("'" + tempList[i][j].Name + "_" + tempList[i][j].ClonedTick + "'");
-
+					//GUILayout.Label(tempList[i][j].Sprite);
+					
 				}	
 				GUILayout.EndHorizontal();
 				
@@ -285,6 +340,10 @@ namespace BloodRings{
 			GUILayout.EndVertical();
 			
 		}
+		
+//		public bool CheckInputSequence(Input sequence){
+//		
+//		}
 	}
 }
 
