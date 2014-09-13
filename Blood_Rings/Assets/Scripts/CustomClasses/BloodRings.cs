@@ -26,19 +26,14 @@ namespace BloodRings{
 		public static bool DEBUG_MODE = true;
 		
 		public static string debugFilePath = Application.dataPath + "/Resources/Output/Log.txt";
-		public static string inputLogFilePath = Application.dataPath + "/Resources/Output/InputLog.txt";
 		
 		#region Constructor
 		static Debug(){
-			// Prepare Log File
+		
+
 			Debug.LogClear(debugFilePath);
 			Debug.FileHeader(debugFilePath);
-			
-			// Prepare Input Log File
-			Debug.LogClear(inputLogFilePath);
-			Debug.FileHeader(inputLogFilePath);
-			
-			
+
 		}
 		#endregion
 		
@@ -63,17 +58,6 @@ namespace BloodRings{
 					string time = DateTime.Now.ToString("HH:mm:ss:ff");
 					writer.WriteLine("[" + time + "] " + msg);
 	
-				}
-			}
-		}
-		#endregion
-		
-		#region InputLog Methods
-		public static void InputLog(string msg){
-			if(Debug.DEBUG_MODE){
-				using (StreamWriter writer = new StreamWriter(inputLogFilePath, true)){
-					string time = DateTime.Now.ToString("HH:mm:ss:ff");
-					writer.WriteLine("[" + time + "] " + msg);				
 				}
 			}
 		}
