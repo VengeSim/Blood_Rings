@@ -33,22 +33,22 @@ public class CreateHitMarkers : MonoBehaviour {
 	
 		if (this.count < 1){
 			if (this.hitboxHigh1Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh1Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxHigh1Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh1Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxHigh1Col.gameObject.transform.localRotation);
 			}
 			if (this.hitboxHigh2Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh2Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxHigh2Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh2Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxHigh2Col.gameObject.transform.localRotation);
 			}
 			if (this.hitboxHigh3Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh3Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxHigh3Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxHigh3Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxHigh3Col.gameObject.transform.localRotation);
 			}
 			if (this.hitboxLow1Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow1Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxLow1Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow1Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxLow1Col.gameObject.transform.localRotation);
 			}
 			if (this.hitboxLow2Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow2Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxLow2Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow2Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxLow2Col.gameObject.transform.localRotation);
 			}
 			if (this.hitboxLow3Col.Flag) {
-				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow3Col.gameObject.GetComponent<BoxCollider2D>().center), this.hitboxLow3Col.gameObject.transform.localRotation);
+				Instantiate (hitMarker, this.hitboxHigh1Col.gameObject.transform.TransformPoint(this.hitboxLow3Col.gameObject.GetComponent<BoxCollider2D>().offset), this.hitboxLow3Col.gameObject.transform.localRotation);
 			}
 		}
 	}

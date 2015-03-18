@@ -23,7 +23,7 @@ public class FxController : MonoBehaviour {
 		if(isRight){			
 					boxSize = boxSize * -1;
 		}
-		Vector3 hitPoint = new Vector3(wrapper.Source.gameObject.transform.TransformPoint(wrapper.Source.BoxCollider2D.center).x, wrapper.Source.gameObject.transform.TransformPoint(wrapper.Source.BoxCollider2D.center).y, -2);
+		Vector3 hitPoint = new Vector3(wrapper.Source.gameObject.transform.TransformPoint(wrapper.Source.BoxCollider2D.offset).x, wrapper.Source.gameObject.transform.TransformPoint(wrapper.Source.BoxCollider2D.offset).y, -2);
 		GameObject prefab = Instantiate (bloodSplatter, hitPoint, Quaternion.identity) as GameObject;
 		
 		if(isRight){			

@@ -125,30 +125,30 @@ public class CollisionController : MonoBehaviour {
 		hitboxHigh1.BoxCollider2D.size = bData.HitboxHigh1.Size;
 		hitboxHigh2.BoxCollider2D.size = bData.HitboxHigh2.Size;
 		hitboxHigh3.BoxCollider2D.size = bData.HitboxHigh3.Size;
-		hitboxHigh1.BoxCollider2D.center = bData.HitboxHigh1.Center;
-		hitboxHigh2.BoxCollider2D.center = bData.HitboxHigh2.Center;
-		hitboxHigh3.BoxCollider2D.center = bData.HitboxHigh3.Center;
+		hitboxHigh1.BoxCollider2D.offset = bData.HitboxHigh1.Center;
+		hitboxHigh2.BoxCollider2D.offset = bData.HitboxHigh2.Center;
+		hitboxHigh3.BoxCollider2D.offset = bData.HitboxHigh3.Center;
 	}
 	public void SetHitBoxLowData(BoxData bData){
 		hitboxLow1.BoxCollider2D.size = bData.HitboxLow1.Size;
 		hitboxLow2.BoxCollider2D.size = bData.HitboxLow2.Size;
 		hitboxLow3.BoxCollider2D.size = bData.HitboxLow3.Size;
-		hitboxLow1.BoxCollider2D.center = bData.HitboxLow1.Center;
-		hitboxLow2.BoxCollider2D.center = bData.HitboxLow2.Center;
-		hitboxLow3.BoxCollider2D.center = bData.HitboxLow3.Center;
+		hitboxLow1.BoxCollider2D.offset = bData.HitboxLow1.Center;
+		hitboxLow2.BoxCollider2D.offset = bData.HitboxLow2.Center;
+		hitboxLow3.BoxCollider2D.offset = bData.HitboxLow3.Center;
 	}
 	public void SetHurtBoxData(BoxData bData){
 		hurtbox1.BoxCollider2D.size = bData.HurtBox1.Size;
 		hurtbox2.BoxCollider2D.size = bData.HurtBox2.Size;
 		hurtbox3.BoxCollider2D.size = bData.HurtBox3.Size;
-		hurtbox1.BoxCollider2D.center = bData.HurtBox1.Center;
-		hurtbox2.BoxCollider2D.center = bData.HurtBox2.Center;
-		hurtbox3.BoxCollider2D.center = bData.HurtBox3.Center;
+		hurtbox1.BoxCollider2D.offset = bData.HurtBox1.Center;
+		hurtbox2.BoxCollider2D.offset = bData.HurtBox2.Center;
+		hurtbox3.BoxCollider2D.offset = bData.HurtBox3.Center;
 	}
 	public void SetPhysicalBoxData(BoxData bData){
 		
 		physicalBox.BoxCollider2D.size = bData.Physical.Size;
-		physicalBox.BoxCollider2D.center = bData.Physical.Center;
+		physicalBox.BoxCollider2D.offset = bData.Physical.Center;
 		
 	}
 }

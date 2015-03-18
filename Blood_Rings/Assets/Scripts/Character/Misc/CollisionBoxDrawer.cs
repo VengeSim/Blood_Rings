@@ -28,8 +28,8 @@ public class CollisionBoxDrawer : MonoBehaviour {
 		
 			float sizeX = bCol.size.x;
 			float sizeY = bCol.size.y;
-			float centerX = bCol.center.x;
-			float centerY = bCol.center.y;
+			float centerX = bCol.offset.x;
+			float centerY = bCol.offset.y;
 			
 			if(sizeX > 0.0001f){
 				if(!this.lineRenderer.enabled){

@@ -19,8 +19,8 @@ public class BoxColliderReadOut : Editor
 			"new BoxPos(" + 
 			col.size.x.ToString() + "f, " + 
 			col.size.y.ToString() + "f, " +
-			col.center.x.ToString()  + "f, " +
-			col.center.y.ToString() + "f);"
+			col.offset.x.ToString()  + "f, " +
+			col.offset.y.ToString() + "f);"
 		);
 	}
 }

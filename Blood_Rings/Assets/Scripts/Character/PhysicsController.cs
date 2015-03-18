@@ -49,35 +49,35 @@ public class PhysicsController : MonoBehaviour {
 		BoxCollider2D bottom = this.groundFlag.gameObject.GetComponent<BoxCollider2D>();
 		
 		front.size = new Vector2( this.colliderWidth, this.mainCircle.radius * colliderLength);
-		front.center = new Vector2(this.mainCircle.center.x + this.mainCircle.radius, this.mainCircle.center.y);
+		front.offset = new Vector2(this.mainCircle.offset.x + this.mainCircle.radius, this.mainCircle.offset.y);
 		
 		back.size = new Vector2( this.colliderWidth, this.mainCircle.radius * colliderLength);
-		back.center = new Vector2(this.mainCircle.center.x - this.mainCircle.radius, this.mainCircle.center.y);
+		back.offset = new Vector2(this.mainCircle.offset.x - this.mainCircle.radius, this.mainCircle.offset.y);
 		
 		bottom.size = new Vector2(this.mainCircle.radius * colliderLength, this.colliderWidth);
-		bottom.center = new Vector2(this.mainCircle.center.x, this.mainCircle.center.y - this.mainCircle.radius);
+		bottom.offset = new Vector2(this.mainCircle.offset.x, this.mainCircle.offset.y - this.mainCircle.radius);
 		
 	}
 	
 	void FixedUpdate() {
 		if(this.cController.WalkState == WalkState.Right){
 			if(this.cController.FacingRight){
-				this.rigidbody2D.velocity = new Vector2(this.cController.Stats.walkForwardSpeed, this.rigidbody2D.velocity.y);
+				this.GetComponent<Rigidbody2D>().velocity = new Vector2(this.cController.Stats.walkForwardSpeed, this.GetComponent<Rigidbody2D>().velocity.y);
 			}else{
-				this.rigidbody2D.velocity = new Vector2(this.cController.Stats.walkBackwardSpeed, this.rigidbody2D.velocity.y);
+				this.GetComponent<Rigidbody2D>().velocity = new Vector2(this.cController.Stats.walkBackwardSpeed, this.GetComponent<Rigidbody2D>().velocity.y);
 				
 			}
 		}
 		if(this.cController.WalkState == WalkState.Left){
 			if(!this.cController.FacingRight){
-				this.rigidbody2D.velocity = new Vector2(-this.cController.Stats.walkForwardSpeed, this.rigidbody2D.velocity.y);
+				this.GetComponent<Rigidbody2D>().velocity = new Vector2(-this.cController.Stats.walkForwardSpeed, this.GetComponent<Rigidbody2D>().velocity.y);
 			}else{
-				this.rigidbody2D.velocity = new Vector2(-this.cController.Stats.walkBackwardSpeed, this.rigidbody2D.velocity.y);
+				this.GetComponent<Rigidbody2D>().velocity = new Vector2(-this.cController.Stats.walkBackwardSpeed, this.GetComponent<Rigidbody2D>().velocity.y);
 				
 			}
 		}
 		if(this.cController.JumpState == JumpState.True){
-			this.rigidbody2D.velocity = new Vector2(this.rigidbody2D.velocity.x, this.cController.Stats.jumpHeight);
+			this.GetComponent<Rigidbody2D>().velocity = new Vector2(this.GetComponent<Rigidbody2D>().velocity.x, this.cController.Stats.jumpHeight);
 			
 		}
 

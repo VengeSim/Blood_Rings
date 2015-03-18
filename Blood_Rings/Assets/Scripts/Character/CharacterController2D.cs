@@ -257,7 +257,7 @@ public class CharacterController2D : ObjectController {
 		this.animator.SetInteger("BlockState",(int)this.blockState);
 		this.animator.SetInteger("WalkState",(int)this.walkState);
 		this.animator.SetInteger("JumpState",(int)this.jumpState);
-		this.animator.SetFloat("Velocity_Y", this.rigidbody2D.velocity.y);
+		this.animator.SetFloat("Velocity_Y", this.GetComponent<Rigidbody2D>().velocity.y);
 		this.animator.SetInteger("HitState",(int)this.hitState);
 		this.animator.SetInteger("StunState",(int)this.stunState);
 		
@@ -555,9 +555,9 @@ public class CharacterController2D : ObjectController {
 			bool onRight = this.IsOnRightSide(wrapper.Owner.transform.position);
 			
 			if(onRight){
-				this.rigidbody2D.AddForce(new Vector2(wrapper.HitPacket.PushBack , 0), ForceMode2D.Impulse);
+				this.GetComponent<Rigidbody2D>().AddForce(new Vector2(wrapper.HitPacket.PushBack , 0), ForceMode2D.Impulse);
 			}else{
-				this.rigidbody2D.AddForce(new Vector2(-wrapper.HitPacket.PushBack , 0), ForceMode2D.Impulse);
+				this.GetComponent<Rigidbody2D>().AddForce(new Vector2(-wrapper.HitPacket.PushBack , 0), ForceMode2D.Impulse);
 				
 			}	
 		}
